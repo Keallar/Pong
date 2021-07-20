@@ -68,8 +68,11 @@ void Paddle::handleEvent(sf::Keyboard::Key key, bool isPressed)
 
 void Paddle::setY(int y)
 {
-    if(n_player == 1)
-        this->rectangle.setPosition(25, y);
-    else
-        this->rectangle.setPosition(775, y);
+    if (y > 50 && y < 650)
+    {
+        if(n_player == 1)
+            this->rectangle.setPosition(25, y);
+        else
+            this->rectangle.setPosition(775, y);
+    }
 }

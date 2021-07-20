@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "paddle.h"
+
 class Ball
 {
 public:
@@ -9,7 +11,14 @@ public:
     ~Ball();
     void render();
     void update();
+    void launch();
+    void wallCollision();
+    void collides(Paddle* paddle);
+    void bounces(Paddle* paddle);
 private:
+    sf::Vector2f start_pos;
     sf::RenderWindow *renwin_window;
     sf::RectangleShape rect_ball;
+    bool bounce;
+    float angle;
 };

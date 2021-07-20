@@ -1,6 +1,6 @@
-#include "game.h"
+#include <iostream>
 
-const sf::Time Game::TimePerFrame = sf::seconds(1.f/60.f);
+#include "game.h"
 
 Game::Game():
     win_main(sf::VideoMode(800, 600), "Pong"),
@@ -8,6 +8,12 @@ Game::Game():
     paddle_second(&win_main, 1),
     ball_main(&win_main)
 {
+    font_main.loadFromFile("../data/font.ttf");
+    if(!font_main.loadFromFile("../data/font.ttf"))
+        std::cerr << "Font wasn't loaded" << std::endl;
+    score_first = 0;
+    score_second = 0;
+    //line.setSize();
     win_main.setVerticalSyncEnabled(true);
 }
 
