@@ -17,6 +17,8 @@ public:
     void processEvents();
     void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 private:
+    static const sf::Time TimePerFrame;
+
     sf::RenderWindow win_main;
     sf::RectangleShape line;
     sf::Font font_main;

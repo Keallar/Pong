@@ -2,6 +2,8 @@
 
 #include "game.h"
 
+const sf::Time Game::TimePerFrame = sf::seconds(1.f/60.f);
+
 Game::Game():
     win_main(sf::VideoMode(800, 600), "Pong"),
     paddle_first(&win_main, 0),
@@ -22,12 +24,19 @@ Game::~Game() {}
 void Game::run()
 {
     sf::Clock clock;
+    sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
     while(win_main.isOpen())
     {
-        sf::Time deltaTime = clock.restart();
         processEvents();
-        update(deltaTime);
+        timeSinceLastUpdate += clock.restart();
+        while (timeSinceLastUpdate > TimePerFrame)
+        {
+            timeSinceLastUpdate -= TimePerFrame;
+            processEvents();
+            update(TimePerFrame);
+        }
+
         render();
     }
 }
@@ -47,7 +56,7 @@ void Game::render()
     win_main.display();
 }
 
-//player input
+//events
 void Game::processEvents()
 {
     sf::Event event;

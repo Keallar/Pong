@@ -22,31 +22,34 @@ Paddle::Paddle(sf::RenderWindow* window, int player)
 
 Paddle::~Paddle() {}
 
+//render paddle
 void Paddle::render()
 {
     this->renwin_window->draw(rectangle);
 }
 
+//logic of paddle
 void Paddle::update(sf::Time time)
 {
     if(isPressedS){
-        this->y += 1;
+        this->y += time.asMilliseconds() * 0.3;
         setY(y);
     }
     if(isPressedW){
-        this->y -= 1;
+        this->y -= time.asMilliseconds() * 0.3;
         setY(y);
     }
     if(isPressedDown){
-        this->y += 1;
+        this->y += time.asMilliseconds() * 0.3;
         setY(y);
     }
     if(isPressedUp){
-        this->y -= 1;
+        this->y -= time.asMilliseconds() * 0.3;
         setY(y);
     }
 }
 
+//events to move paddle
 void Paddle::handleEvent(sf::Keyboard::Key key, bool isPressed)
 {
     if(this->n_player == 1){
@@ -66,9 +69,10 @@ void Paddle::handleEvent(sf::Keyboard::Key key, bool isPressed)
     }
 }
 
+//check walls
 void Paddle::setY(int y)
 {
-    if (y > 50 && y < 650)
+    if (y > 30 && y < 570)
     {
         if(n_player == 1)
             this->rectangle.setPosition(25, y);
