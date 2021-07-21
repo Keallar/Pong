@@ -15,7 +15,8 @@ Game::Game():
         std::cerr << "Font wasn't loaded" << std::endl;
     score_first = 0;
     score_second = 0;
-    //line.setSize();
+    rect_line.setSize(sf::Vector2f(5, 600));
+    rect_line.setPosition(sf::Vector2f(390, 0));
     win_main.setVerticalSyncEnabled(true);
 }
 
@@ -30,7 +31,7 @@ void Game::run()
     {
         processEvents();
         timeSinceLastUpdate += clock.restart();
-        while (timeSinceLastUpdate > TimePerFrame)
+        while (timeSinceLastUpdate > TimePerFrame)//???
         {
             timeSinceLastUpdate -= TimePerFrame;
             processEvents();
@@ -45,6 +46,7 @@ void Game::update(sf::Time deltaTime)
 {
     paddle_first.update(deltaTime);
     paddle_second.update(deltaTime);
+    ball_main.update(deltaTime);
 }
 
 void Game::render()
@@ -53,6 +55,7 @@ void Game::render()
     paddle_first.render();
     paddle_second.render();
     ball_main.render();
+    this->win_main.draw(rect_line);
     win_main.display();
 }
 

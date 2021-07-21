@@ -20,7 +20,7 @@ private:
     static const sf::Time TimePerFrame;
 
     sf::RenderWindow win_main;
-    sf::RectangleShape line;
+    sf::RectangleShape rect_line;
     sf::Font font_main;
 
     int score_first;
