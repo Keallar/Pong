@@ -12,6 +12,8 @@ public:
     void update(sf::Time time);
     void handleEvent(sf::Keyboard::Key key, bool isPressed);
     void setY(int y);
+    sf::RectangleShape getRect() noexcept;
+    int getPlayer() noexcept;
 private:
     sf::RenderWindow* renwin_window;
     sf::RectangleShape rectangle;

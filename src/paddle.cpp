@@ -80,3 +80,13 @@ void Paddle::setY(int y)
             this->rectangle.setPosition(775, y);
     }
 }
+
+sf::RectangleShape Paddle::getRect() noexcept
+{
+    return rectangle;
+}
+
+int Paddle::getPlayer() noexcept
+{
+    return n_player;
+}

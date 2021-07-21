@@ -5,13 +5,9 @@
 #include "paddle.h"
 
 enum eState
-{   Peace,
+{   Start,
     Launched,
-    BouncedLeftWall,
-    BouncedRightWall,
-    BouncedTopWall,
-    BouncedBottomWall,
-    BouncedPaddle,
+    Bounced,
     Passed
 };
 
@@ -27,6 +23,7 @@ public:
     void collides(Paddle* paddle);
     void bounces(Paddle* paddle);
     void reset();
+    sf::Vector2f calculateMove();
 private:
     const int WIDTH = 800;
     const int HEIGHT = 600;
@@ -40,6 +37,6 @@ private:
     bool b_dir_left;
     bool b_dir_right;
     bool b_bounce;
-    float f_angle;
+    sf::Vector2f vec_angle;
     float f_speed;
 };

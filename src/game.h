@@ -22,6 +22,8 @@ private:
     sf::RenderWindow win_main;
     sf::RectangleShape rect_line;
     sf::Font font_main;
+    sf::Text text_score_first;
+    sf::Text text_score_second;
 
     int score_first;
     int score_second;

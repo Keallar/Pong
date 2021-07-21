@@ -10,13 +10,20 @@ Game::Game():
     paddle_second(&win_main, 1),
     ball_main(&win_main)
 {
-    font_main.loadFromFile("../data/font.ttf");
-    if(!font_main.loadFromFile("../data/font.ttf"))
+    if(!font_main.loadFromFile("../data/Fonts/font.ttf"))
         std::cerr << "Font wasn't loaded" << std::endl;
+    text_score_first.setFont(font_main);
+    text_score_first.setString("0");
+    text_score_first.setCharacterSize(64);
+    text_score_first.setPosition(sf::Vector2f(335, 10));
+    text_score_second.setFont(font_main);
+    text_score_second.setString("0");
+    text_score_second.setCharacterSize(64);
+    text_score_second.setPosition(sf::Vector2f(435, 10));
     score_first = 0;
     score_second = 0;
     rect_line.setSize(sf::Vector2f(5, 600));
-    rect_line.setPosition(sf::Vector2f(390, 0));
+    rect_line.setPosition(sf::Vector2f(400, 0));
     win_main.setVerticalSyncEnabled(true);
 }
 
@@ -47,6 +54,8 @@ void Game::update(sf::Time deltaTime)
     paddle_first.update(deltaTime);
     paddle_second.update(deltaTime);
     ball_main.update(deltaTime);
+    ball_main.collides(&paddle_first);
+    ball_main.collides(&paddle_second);
 }
 
 void Game::render()
@@ -56,6 +65,8 @@ void Game::render()
     paddle_second.render();
     ball_main.render();
     this->win_main.draw(rect_line);
+    this->win_main.draw(text_score_first);
+    this->win_main.draw(text_score_second);
     win_main.display();
 }
 
