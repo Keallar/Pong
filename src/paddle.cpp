@@ -12,10 +12,10 @@ Paddle::Paddle(sf::RenderWindow* window, int player)
     this->renwin_window = window;
     this->rectangle.setSize(sf::Vector2f(10, 100));
     this->rectangle.setOrigin(5, 50);
-    if(player == 1){
+    if(player == 0){
         this->rectangle.setPosition(sf::Vector2f(25, this->y));
     }
-    else{
+    else if (player == 1){
         this->rectangle.setPosition(sf::Vector2f(775, this->y));
     }
 }
@@ -52,14 +52,14 @@ void Paddle::update(sf::Time time)
 //events to move paddle
 void Paddle::handleEvent(sf::Keyboard::Key key, bool isPressed)
 {
-    if(this->n_player == 1){
+    if(this->n_player == 0){
         if(key == sf::Keyboard::S){
             isPressedS = isPressed;
         }
         else if(key == sf::Keyboard::W){
             isPressedW = isPressed;
         }
-    } else {
+    } else if (this->n_player == 1){
         if(key == sf::Keyboard::Up){
             isPressedUp = isPressed;
         }
@@ -74,9 +74,9 @@ void Paddle::setY(int y)
 {
     if (y > 30 && y < 570)
     {
-        if(n_player == 1)
+        if(n_player == 0)
             this->rectangle.setPosition(25, y);
-        else
+        else if(n_player == 1)
             this->rectangle.setPosition(775, y);
     }
 }
