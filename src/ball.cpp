@@ -17,6 +17,10 @@ Ball::Ball(sf::RenderWindow *window):
     this->rect_ball.setSize(sf::Vector2f(10, 10));
     this->rect_ball.setOrigin(5, 5);
     this->rect_ball.setPosition(start_pos);
+
+    if(!soundbuf_main.loadFromFile("../data/Sounds/hit.wav"))
+        std::cerr << "Sound wasn't loaded" << std::endl;
+    sound_collide.setBuffer(soundbuf_main);
 }
 
 Ball::~Ball() {}
@@ -74,6 +78,7 @@ void Ball::wallCollision()
         vec_angle.y = 180.f - vec_angle.y;
         state = eState::Bounced;
         f_accel += 0.02f;
+        sound_collide.play();
     }
     if(this->rect_ball.getPosition().y + this->rect_ball.getOrigin().y >= HEIGHT &&
             state != eState::Bounced)
@@ -81,6 +86,7 @@ void Ball::wallCollision()
         vec_angle.y = 180.f - vec_angle.y;
         state = eState::Bounced;
         f_accel += 0.02f;
+        sound_collide.play();
     }
 }
 
@@ -97,6 +103,7 @@ void Ball::collides(Paddle *paddle)
                  paddle->getRect().getPosition().y - paddle->getRect().getOrigin().y) - 5){
             vec_angle.x *= -1.0f;
             state = eState::Bounced;
+            sound_collide.play();
         }
     }
     else if(paddle->getPlayer() == 1){
@@ -110,6 +117,7 @@ void Ball::collides(Paddle *paddle)
                  paddle->getRect().getPosition().y - paddle->getRect().getOrigin().y - 5)){
             vec_angle.x *= -1.0f;
             state = eState::Bounced;
+            sound_collide.play();
         }
     }
 }

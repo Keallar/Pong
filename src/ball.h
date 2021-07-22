@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 #include "paddle.h"
 
@@ -33,6 +34,9 @@ private:
     sf::Vector2f start_pos;
     sf::RenderWindow *renwin_window;
     sf::RectangleShape rect_ball;
+
+    sf::SoundBuffer soundbuf_main;
+    sf::Sound sound_collide;
 
     bool b_dir_left;
     bool b_dir_right;
