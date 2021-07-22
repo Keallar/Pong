@@ -21,10 +21,9 @@ public:
     void launch();
     void wallCollision();
     void collides(Paddle* paddle);
-    void passed(Paddle* paddle);
+    bool passed(Paddle* paddle);
     void reset();
     sf::Vector2f calculateMove();
-    int getScore() noexcept;
 private:
     const int WIDTH = 800;
     const int HEIGHT = 600;
@@ -39,5 +38,4 @@ private:
     bool b_dir_right;
     sf::Vector2f vec_angle;
     float f_speed;
-    int n_score;
 };

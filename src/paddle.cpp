@@ -90,3 +90,15 @@ int Paddle::getPlayer() noexcept
 {
     return n_player;
 }
+
+void Paddle::incScore()
+{
+    n_score++;
+}
+
+int Paddle::getScore() noexcept
+{
+    return n_score;
+}
+
+

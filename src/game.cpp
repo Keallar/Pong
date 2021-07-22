@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 #include "game.h"
 
@@ -52,9 +53,11 @@ void Game::update(sf::Time deltaTime)
     paddle_zero.update(deltaTime);
     paddle_first.update(deltaTime);
     ball_main.collides(&paddle_zero);
-    ball_main.passed(&paddle_zero);
+    if(ball_main.passed(&paddle_zero))
+        this->changeScore();
     ball_main.collides(&paddle_first);
-    ball_main.passed(&paddle_first);
+    if(ball_main.passed(&paddle_first))
+        this->changeScore();
     ball_main.update(deltaTime);
 }
 
@@ -97,5 +100,13 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 {
     paddle_zero.handleEvent(key, isPressed);
     paddle_first.handleEvent(key, isPressed);
+}
+
+void Game::changeScore()
+{
+    std::string str_temp_zero = std::to_string(paddle_first.getScore());
+    text_score_zero.setString(str_temp_zero);
+    std::string str_temp_first = std::to_string(paddle_zero.getScore());
+    text_score_first.setString(str_temp_first);
 }
 

@@ -14,6 +14,8 @@ public:
     void setY(int y);
     sf::RectangleShape getRect() noexcept;
     int getPlayer() noexcept;
+    void incScore();
+    int getScore() noexcept;
 private:
     sf::RenderWindow* renwin_window;
     sf::RectangleShape rectangle;

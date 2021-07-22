@@ -12,7 +12,6 @@ Ball::Ball(sf::RenderWindow *window):
     b_dir_right = false;
     vec_angle = {0.f, 0.f};
     f_speed = 0.f;
-    n_score = 0;
     start_pos = {WIDTH/2.f, HEIGHT/2.f};
     this->rect_ball.setSize(sf::Vector2f(10, 10));
     this->rect_ball.setOrigin(5, 5);
@@ -114,22 +113,27 @@ void Ball::collides(Paddle *paddle)
     }
 }
 
-void Ball::passed(Paddle *paddle)
+bool Ball::passed(Paddle *paddle)
 {
     if(paddle->getPlayer() == 0){
         if((this->rect_ball.getPosition().x - this->rect_ball.getOrigin().x <=
                 paddle->getRect().getPosition().x)){
             state = eState::Passed;
+            paddle->incScore();
+            return true;
+            //std::cout << paddle->getScore() << std::endl;
         }
     }
     else if(paddle->getPlayer() == 1){
         if((this->rect_ball.getPosition().x + this->rect_ball.getOrigin().x >=
                 paddle->getRect().getPosition().x)){
             state = eState::Passed;
+            paddle->incScore();
+            return true;
+            //std::cout << paddle->getScore() << std::endl;
         }
     }
-//    n_score++;
-//    std::cout << n_score << std::endl;
+    return false;;
 }
 
 void Ball::reset()
@@ -146,9 +150,4 @@ sf::Vector2f Ball::calculateMove()
 {
     return {f_speed * (float)std::sin(M_PI * vec_angle.x/180.f),
                 f_speed * (float)std::cos(M_PI * vec_angle.y/180.f)};
-}
-
-int Ball::getScore() noexcept
-{
-    return n_score;
 }
