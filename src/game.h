@@ -25,8 +25,11 @@ private:
     sf::Font font_main;
     sf::Text text_score_zero;
     sf::Text text_score_first;
+    sf::Text text_start_game;
 
     Paddle paddle_zero;
     Paddle paddle_first;
     Ball ball_main;
+
+    bool b_start_game;
 };

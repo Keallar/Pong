@@ -12,6 +12,7 @@ Ball::Ball(sf::RenderWindow *window):
     b_dir_right = false;
     vec_angle = {0.f, 0.f};
     f_speed = 0.f;
+    f_accel = 0.2f;
     start_pos = {WIDTH/2.f, HEIGHT/2.f};
     this->rect_ball.setSize(sf::Vector2f(10, 10));
     this->rect_ball.setOrigin(5, 5);
@@ -27,7 +28,7 @@ void Ball::render()
 
 void Ball::update(sf::Time time)
 {
-    f_speed = time.asMilliseconds() * 0.3f;
+    f_speed = time.asMilliseconds() * f_accel;
 
     sf::Vector2f v_motion (0.f, 0.f);
 
@@ -63,7 +64,7 @@ void Ball::launch()
         else if (dir == 1){
             vec_angle.x = vec_angle.y = std::rand() % 180 + 181;
         }
-    } while (vec_angle.x < 100 && vec_angle.x > 80);
+    } while ((vec_angle.x < 100 && vec_angle.x > 80) || (vec_angle.x > 1 && vec_angle.x < 10));
 }
 
 void Ball::wallCollision()
@@ -72,12 +73,14 @@ void Ball::wallCollision()
             state != eState::Bounced){
         vec_angle.y = 180.f - vec_angle.y;
         state = eState::Bounced;
+        f_accel += 0.02f;
     }
     if(this->rect_ball.getPosition().y + this->rect_ball.getOrigin().y >= HEIGHT &&
             state != eState::Bounced)
     {
         vec_angle.y = 180.f - vec_angle.y;
         state = eState::Bounced;
+        f_accel += 0.02f;
     }
 }
 
@@ -89,10 +92,9 @@ void Ball::collides(Paddle *paddle)
                 (this->rect_ball.getPosition().x - this->rect_ball.getOrigin().x >
                  paddle->getRect().getPosition().x) &&
                 (this->rect_ball.getPosition().y - this->rect_ball.getOrigin().y <=
-                 paddle->getRect().getPosition().y + paddle->getRect().getOrigin().y) &&
+                 paddle->getRect().getPosition().y + paddle->getRect().getOrigin().y + 5) &&
                 (this->rect_ball.getPosition().y + this->rect_ball.getOrigin().y >=
-                 paddle->getRect().getPosition().y - paddle->getRect().getOrigin().y)){
-            //std::cout << paddle->getRect().getPosition().x << " " << 0 << std::endl;
+                 paddle->getRect().getPosition().y - paddle->getRect().getOrigin().y) - 5){
             vec_angle.x *= -1.0f;
             state = eState::Bounced;
         }
@@ -103,10 +105,9 @@ void Ball::collides(Paddle *paddle)
                 (this->rect_ball.getPosition().x + this->rect_ball.getOrigin().x <
                  paddle->getRect().getPosition().x) &&
                 (this->rect_ball.getPosition().y - this->rect_ball.getOrigin().y <=
-                 paddle->getRect().getPosition().y + paddle->getRect().getOrigin().y) &&
+                 paddle->getRect().getPosition().y + paddle->getRect().getOrigin().y) + 5 &&
                 (this->rect_ball.getPosition().y + this->rect_ball.getOrigin().y >=
-                 paddle->getRect().getPosition().y - paddle->getRect().getOrigin().y)){
-            //std::cout << paddle->getRect().getPosition().x << " " << 1 << std::endl;
+                 paddle->getRect().getPosition().y - paddle->getRect().getOrigin().y - 5)){
             vec_angle.x *= -1.0f;
             state = eState::Bounced;
         }
@@ -121,7 +122,6 @@ bool Ball::passed(Paddle *paddle)
             state = eState::Passed;
             paddle->incScore();
             return true;
-            //std::cout << paddle->getScore() << std::endl;
         }
     }
     else if(paddle->getPlayer() == 1){
@@ -130,7 +130,6 @@ bool Ball::passed(Paddle *paddle)
             state = eState::Passed;
             paddle->incScore();
             return true;
-            //std::cout << paddle->getScore() << std::endl;
         }
     }
     return false;;
@@ -144,6 +143,7 @@ void Ball::reset()
     b_dir_right = false;
     vec_angle = {0.f, 0.f};
     f_speed = 0.f;
+    f_accel = 0.2f;
 }
 
 sf::Vector2f Ball::calculateMove()

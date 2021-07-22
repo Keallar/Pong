@@ -9,7 +9,8 @@ Game::Game():
     win_main(sf::VideoMode(800, 600), "Pong"),
     paddle_zero(&win_main, 0),
     paddle_first(&win_main, 1),
-    ball_main(&win_main)
+    ball_main(&win_main),
+    b_start_game(false)
 {
     if(!font_main.loadFromFile("../data/Fonts/font.ttf"))
         std::cerr << "Font wasn't loaded" << std::endl;
@@ -21,6 +22,11 @@ Game::Game():
     text_score_first.setString("0");
     text_score_first.setCharacterSize(64);
     text_score_first.setPosition(sf::Vector2f(435, 10));
+    text_start_game.setFont(font_main);
+    text_start_game.setString("Press SPACE to start game");
+    text_start_game.setCharacterSize(40);
+    text_start_game.setPosition(sf::Vector2f(135, 280));
+
     rect_line.setSize(sf::Vector2f(5, 600));
     rect_line.setPosition(sf::Vector2f(400, 0));
     win_main.setVerticalSyncEnabled(true);
@@ -37,7 +43,7 @@ void Game::run()
     {
         processEvents();
         timeSinceLastUpdate += clock.restart();
-        while (timeSinceLastUpdate > TimePerFrame)//???
+        while (timeSinceLastUpdate > TimePerFrame)
         {
             timeSinceLastUpdate -= TimePerFrame;
             processEvents();
@@ -50,15 +56,17 @@ void Game::run()
 
 void Game::update(sf::Time deltaTime)
 {
-    paddle_zero.update(deltaTime);
-    paddle_first.update(deltaTime);
-    ball_main.collides(&paddle_zero);
-    if(ball_main.passed(&paddle_zero))
-        this->changeScore();
-    ball_main.collides(&paddle_first);
-    if(ball_main.passed(&paddle_first))
-        this->changeScore();
-    ball_main.update(deltaTime);
+    if(b_start_game == true){
+        paddle_zero.update(deltaTime);
+        paddle_first.update(deltaTime);
+        ball_main.collides(&paddle_zero);
+        if(ball_main.passed(&paddle_zero))
+            this->changeScore();
+        ball_main.collides(&paddle_first);
+        if(ball_main.passed(&paddle_first))
+            this->changeScore();
+        ball_main.update(deltaTime);
+    }
 }
 
 void Game::render()
@@ -70,6 +78,9 @@ void Game::render()
     this->win_main.draw(rect_line);
     this->win_main.draw(text_score_zero);
     this->win_main.draw(text_score_first);
+    if(b_start_game == false){
+        this->win_main.draw(text_start_game);
+    }
     win_main.display();
 }
 
@@ -98,8 +109,13 @@ void Game::processEvents()
 
 void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 {
-    paddle_zero.handleEvent(key, isPressed);
-    paddle_first.handleEvent(key, isPressed);
+    if(key == sf::Keyboard::Space){
+        b_start_game = true;
+    }
+    if(b_start_game == true){
+        paddle_zero.handleEvent(key, isPressed);
+        paddle_first.handleEvent(key, isPressed);
+    }
 }
 
 void Game::changeScore()

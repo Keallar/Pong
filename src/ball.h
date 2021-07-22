@@ -38,4 +38,5 @@ private:
     bool b_dir_right;
     sf::Vector2f vec_angle;
     float f_speed;
+    float f_accel;
 };
